@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css?family=Raleway:400,700");
+
+      body {
+        background: #c0c0c0;
+        font-family: Raleway, sans-serif;
+        color: #666;
+      }
+
+      .login {
+        margin: 20px auto;
+        padding: 40px 50px;
+        max-width: 300px;
+        border-radius: 5px;
+        background: #fff;
+        box-shadow: 1px 1px 1px #666;
+      }
+      .login input {
+        width: 100%;
+        display: block;
+        box-sizing: border-box;
+        margin: 10px 0;
+        padding: 14px 12px;
+        font-size: 16px;
+        border-radius: 2px;
+        font-family: Raleway, sans-serif;
+      }
+
+      .login input[type="text"],
+      .login input[type="password"] {
+        border: 1px solid #c0c0c0;
+        transition: 0.2s;
+      }
+
+      .login input[type="text"]:hover {
+        border-color: #f44336;
+        outline: none;
+        transition: all 0.2s ease-in-out;
+      }
+
+      .login input[type="submit"] {
+        border: none;
+        background: #ef5350;
+        color: white;
+        font-weight: bold;
+        transition: 0.2s;
+        margin: 20px 0px;
+      }
+
+      .login input[type="submit"]:hover {
+        background: #f44336;
+      }
+
+      .login h2 {
+        margin: 20px 0 0;
+        color: #ef5350;
+        font-size: 28px;
+      }
+
+      .login p {
+        margin-bottom: 40px;
+      }
+
+      .links {
+        display: table;
+        width: 100%;
+        box-sizing: border-box;
+        border-top: 1px solid #c0c0c0;
+        margin-bottom: 10px;
+      }
+
+      .links a {
+        display: table-cell;
+        padding-top: 10px;
+      }
+
+      .links a:first-child {
+        text-align: left;
+      }
+
+      .links a:last-child {
+        text-align: right;
+      }
+
+      .login h2,
+      .login p,
+      .login a {
+        text-align: center;
+      }
+
+      .login a {
+        text-decoration: none;
+        font-size: 0.8em;
+      }
+
+      .login a:visited {
+        color: inherit;
+      }
+
+      .login a:hover {
+        text-decoration: underline;
+      }
+    </style>
+  </head>
+
+  <body>
+    <form class="login">
+      <h2>Welcome, User!</h2>
+      <p>Please Sign Up</p>
+      <input type="text" placeholder="User Name" required name="userName" />
+      <input type="password" placeholder="Password" required name="password" />
+      <input type="submit" value="Sign Up" />
+      <div class="links">
+        <!-- <a href="#">Forgot password</a> -->
+        <a href="./login.html">login</a>
+      </div>
+    </form>
+    <script>
+// Event handler for form submission
+const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const formData = new FormData(event.target);
+    const userName = formData.get("userName");
+    const password = formData.get("password");
+
+    try {
+        const response = await fetch("/api/user/signUpUser", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userName, password }),
+        });
+        console.log(response);
+        if (response.ok) {
+            console.log('inside if')
+            // Sign-up successful, redirect the user to the '/todo' page
+            window.location.href = '/todo';
+        } else {
+            alert(response.error)
+            // Sign-up failed, handle the error
+            throw new Error("Sign-up failed ");
+        }
+    } catch (error) {
+        console.error("Error:", error?.error);
+        alert("An error occurred. Please try again."); // Display an alert for any errors
+    }
+};
+
+// Attach the event handler to the form
+const signUpForm = document.querySelector('.login');
+signUpForm.addEventListener('submit', handleSubmit);
+
+    </script>
+  </body>
+</html>

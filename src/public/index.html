@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dynamic Todolist</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="loader">loading...</div>
+    <main id="main">
+      <nav>
+        <div class="navLeft">
+          <span>LOGO</span>
+        </div>
+        <div class="navRight">
+          <span id="logout">Logout</span>
+        </div>
+      </nav>
+      <div class="hero">
+        <div class="heroTop">
+          <button id="todoBtn">Add Todo</button>
+          <input id="myinput" type="text" />
+        </div>
+        <div class="heroBottom" id="todosContainer">
+          No Todos yet...😇
+        </div>
+      </div>
+    </main>
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>
+<!-- <div class="todo">
+            <span class="todoText">this is first Todo</span>
+            <div class="controls">
+              <input type="checkbox" />
+              <button>&times;</button>
+            </div>
+          </div> -->
