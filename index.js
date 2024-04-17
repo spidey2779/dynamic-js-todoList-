@@ -7,7 +7,6 @@ import router from './src/router/user.routes.js';
 import connectToMongoDB from './src/db/connectToMongoDB.js';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import userProtectingRouter from './src/middleware/userProtectingRouter.js'
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);

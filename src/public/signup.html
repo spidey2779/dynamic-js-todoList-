@@ -122,42 +122,42 @@
       </div>
     </form>
     <script>
-// Event handler for form submission
-const handleSubmit = async (event) => {
-    event.preventDefault();
+      // Event handler for form submission
+      const handleSubmit = async (event) => {
+        event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const userName = formData.get("userName");
-    const password = formData.get("password");
+        const formData = new FormData(event.target);
+        const userName = formData.get("userName");
+        const password = formData.get("password");
 
-    try {
-        const response = await fetch("/api/user/signUpUser", {
+        try {
+          const response = await fetch("/api/user/signUpUser", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
+              "Content-Type": "application/json",
             },
             body: JSON.stringify({ userName, password }),
-        });
-        console.log(response);
-        if (response.ok) {
-            console.log('inside if')
-            // Sign-up successful, redirect the user to the '/todo' page
-            window.location.href = '/todo';
-        } else {
-            alert(response.error)
-            // Sign-up failed, handle the error
-            throw new Error("Sign-up failed ");
+            credentials: "include",
+          });
+
+          if (response.ok) {
+            console.log("Sign-up successful");
+            // Redirect the user to the '/todo' page
+            window.location.href = "/todo";
+          } else {
+            // Extract error message from response
+            const responseData = await response.json();
+            const errorMessage = responseData.message;
+            alert(errorMessage || "Sign-up failed"); // Display error message or fallback message
+            throw new Error(errorMessage || "Sign-up failed");
+          }
+        } catch (error) {
+          console.error("Error:", error);
         }
-    } catch (error) {
-        console.error("Error:", error?.error);
-        alert("An error occurred. Please try again."); // Display an alert for any errors
-    }
-};
-
-// Attach the event handler to the form
-const signUpForm = document.querySelector('.login');
-signUpForm.addEventListener('submit', handleSubmit);
-
+      };
+      // Attach the event handler to the form
+      const signUpForm = document.querySelector(".login");
+      signUpForm.addEventListener("submit", handleSubmit);
     </script>
   </body>
 </html>

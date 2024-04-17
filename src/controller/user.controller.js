@@ -11,7 +11,7 @@ export const signUpUser = async (req, res) => {
     const user = await User.findOne({ userName });
 
     if (user) {
-      return res.status(400).json({ error: "User Already Exists" });
+      return res.status(400).json({ message: "User Already Exists" });
     }
 
     // Hashing the password
@@ -28,13 +28,13 @@ export const signUpUser = async (req, res) => {
       generateTokenSetCookie(newUser._id, res);
       await newUser.save();
       console.log("New User Created");
-      return res.status(201).json({ok:true}); // Redirect the user to the '/todo' route
+      return res.status(201).json({ok:true}); 
     } else {
-      return res.status(400).json({ error: "Invalid user data" });
+      return res.status(400).json({ message: "Invalid user data" });
     }
   } catch (error) {
     console.log("Error in SignUp controller", error.message);
-    return res.status(500).json({ error: "Internal Server error" });
+    return res.status(500).json({ message: "Internal Server error" });
   }
 };
 
@@ -47,7 +47,7 @@ export const logInUser = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ ok: false, error: "Invalid Username " });
+        .json({ ok: false, message: "Invalid Username " });
     }
     const isPasswordCorrect = await bycrypt.compare(
       password,
@@ -56,7 +56,7 @@ export const logInUser = async (req, res) => {
     if (!isPasswordCorrect) {
       return res
         .status(400)
-        .json({ ok: false, error: "Invalid Password" });
+        .json({ ok: false, message: "Invalid Password" });
     }
 
     generateTokenSetCookie(user._id, res);
@@ -65,7 +65,7 @@ export const logInUser = async (req, res) => {
     res.status(200).json({ ok: true });
   } catch (error) {
     console.log("Error in Login controller", error.message);
-    res.status(500).json({ ok: false, error: "Internal Server Error" });
+    res.status(500).json({ ok: false, message: "Internal Server Error" });
   }
 };
 

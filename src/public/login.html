@@ -113,8 +113,8 @@
     <form class="login" method="post" action="/api/user/logInUser">
       <h2>Welcome, User!</h2>
       <p>Please log in</p>
-      <input type="text" placeholder="User Name" required name="userName"/>
-      <input type="password" placeholder="Password" required name="password"/>
+      <input type="text" placeholder="User Name" required name="userName" />
+      <input type="password" placeholder="Password" required name="password" />
       <input type="submit" value="Log In" />
       <div class="links">
         <!-- <a href="#">Forgot password</a> -->
@@ -123,37 +123,40 @@
     </form>
   </body>
   <script>
-    const handleSubmit = async (event) => {
-    event.preventDefault();
+const handleSubmit = async (event) => {
+  event.preventDefault();
 
-    const formData = new FormData(event.target);
-    const userName = formData.get("userName");
-    const password = formData.get("password");
+  const formData = new FormData(event.target);
+  const userName = formData.get("userName");
+  const password = formData.get("password");
 
-    try {
-        const response = await fetch("/api/user/logInUser", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ userName, password }),
-        });
-        if (response.ok) {
-            // Sign-up successful, redirect the user to the '/todo' page
-            window.location.href = '/todo';
-        } else {
-            // Sign-up failed, handle the error
-            alert(response.error)
-            throw new Error("Sign-up failed ");
-        }
-    } catch (error) {
-        console.error("Error:", error?.error);
-        alert("An error occurred. Please try again."); // Display an alert for any errors
+  try {
+    const response = await fetch("/api/user/logInUser", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ userName, password }),
+      credentials: "include",
+    });
+
+    if (response.ok) {
+      console.log("Sign-up successful");
+      // Redirect the user to the '/todo' page
+      window.location.href = "/todo";
+    } else {
+      // Extract error message from response
+      const responseData = await response.json();
+      const errorMessage = responseData.message;
+      alert(errorMessage || "Sign-up failed"); // Display error message or fallback message
+      throw new Error(errorMessage || "Sign-up failed");
     }
+  } catch (error) {
+    console.error("Error:", error);
+  }
 };
-
-// Attach the event handler to the form
-const signUpForm = document.querySelector('.login');
-signUpForm.addEventListener('submit', handleSubmit);
+    // Attach the event handler to the form
+    const signUpForm = document.querySelector(".login");
+    signUpForm.addEventListener("submit", handleSubmit);
   </script>
 </html>
