@@ -24,19 +24,18 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 
 app.get("/", (req, res) => {
-    // Check if the user is authenticated (logged in)
-    if (!req.cookies.jwt) {
-      // If not authenticated, serve the login page
-      console.log("home route: Not authenticated");
-      return res.sendFile(path.join(__dirname, "src", "public", "login.html"));
-    }
-    // If authenticated, redirect to the todo page or any other authenticated route
-    console.log("home route: Authenticated");
-    res.redirect("/api/todo"); // Redirect to the todo page or any other authenticated route
-  });
+  if (!req.cookies.jwt) {
+    // If not authenticated, serve the login page
+    console.log("home route: Not authenticated");
+    return res.sendFile(path.join(__dirname, "src", "public", "login.html"));
+  }
+  // If authenticated, redirect to the todo page or any other authenticated route
+  console.log("home route: Authenticated");
+  return res.redirect("/api/todo");
+});
 app.get("/api/todo", (req, res) => {
-  console.log("todo route");
-  return res.sendFile(path.join(__dirname, "src", "public", "index.html"));
+  //   console.log("todo route");
+  return res.sendFile(path.join(__dirname, "src", "public", "todo.html"));
 });
 app.use("/api/user", router);
 

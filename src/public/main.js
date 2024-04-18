@@ -67,18 +67,29 @@ const generateTodo = (todo) => {
   controlsDiv.appendChild(controlsButton);
   //adding event listeners
   controlsCheckbox.addEventListener("change", async () => {
-    todos = await fetchData("/api/user/updateTask", "PUT", {
-      taskID: todo._id,
-    });
-    renderTodos(todos);
+    try {
+      todos = await fetchData("/api/user/updateTask", "PUT", {
+        taskID: todo._id,
+      });
+      renderTodos(todos);
+    } catch (error) {
+      console.error("Error updating task:", error);
+      // Handle error, show message to user, or perform other actions
+    }
   });
+
   controlsButton.addEventListener("click", async () => {
-    todos = await fetchData("/api/user/deleteTask", "DELETE", {
-      taskID: todo._id,
-    });
-    renderTodos(todos);
-    //this is for static todolist
-    // deleteTodo(todo);
+    try {
+      todos = await fetchData("/api/user/deleteTask", "DELETE", {
+        taskID: todo._id,
+      });
+      renderTodos(todos);
+      //this is for static todolist
+      // deleteTodo(todo);
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      // Handle error, show message to user, or perform other actions
+    }
   });
 };
 //rendering todos
