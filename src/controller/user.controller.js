@@ -28,7 +28,7 @@ export const signUpUser = async (req, res) => {
       generateTokenSetCookie(newUser._id, res);
       await newUser.save();
       console.log("New User Created");
-      return res.status(201).json({ok:true}); 
+      return res.status(201).json({ ok: true });
     } else {
       return res.status(400).json({ message: "Invalid user data" });
     }
@@ -45,18 +45,14 @@ export const logInUser = async (req, res) => {
     const user = await User.findOne({ userName });
 
     if (!user) {
-      return res
-        .status(400)
-        .json({ ok: false, message: "Invalid Username " });
+      return res.status(400).json({ ok: false, message: "Invalid Username " });
     }
     const isPasswordCorrect = await bycrypt.compare(
       password,
       user?.password || ""
     );
     if (!isPasswordCorrect) {
-      return res
-        .status(400)
-        .json({ ok: false, message: "Invalid Password" });
+      return res.status(400).json({ ok: false, message: "Invalid Password" });
     }
 
     generateTokenSetCookie(user._id, res);
@@ -85,10 +81,10 @@ export const logOutUser = (req, res) => {
 export const gettingData = async (req, res) => {
   try {
     const userID = req.user._id;
-
+    // console.log(userID);
     // Find the user data by userid
     const userData = await UserData.findOne({ userid: userID });
-
+    console.log(userData);
     res.status(200).json(userData);
   } catch (error) {
     console.log("Error in Get data controller", error.message);

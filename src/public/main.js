@@ -2,8 +2,8 @@ const myinput = document.getElementById("myinput");
 const todoBtn = document.getElementById("todoBtn");
 const todosContainer = document.getElementById("todosContainer");
 //route securing
-if(!document.cookie){
-  window.location.href='/login.html'
+if (!document.cookie) {
+  window.location.href = "/login.html";
 }
 //loader
 const showLoader = () => {
@@ -119,7 +119,11 @@ async function fetchData(
     });
 
     const responseData = await response.json();
-    // console.log(responseData);
+    console.log(responseData);
+    if (responseData === null) {
+      // console.error("Error: Response data is null");
+      return [];
+    }
     if (url === "/api/user/getData") {
       return [...responseData.data];
     } else return responseData;
@@ -136,8 +140,7 @@ async function fetchData(
 const logoutBtn = document.getElementById("logout");
 logoutBtn.addEventListener("click", async () => {
   const response = await fetchData("/api/user/logOutUser");
-  
- 
-  alert(response.message)
+
+  alert(response.message);
   window.location.reload();
 });
